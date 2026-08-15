@@ -1,0 +1,46 @@
+﻿# 如何查看文档
+
+## 📱 在手机上查看
+
+### 方法 1: 在 Termux 中
+```bash
+cd ~/claude-code-termux-installer
+cat FAQ.md
+cat README.md
+```
+
+### 方法 2: 用文本查看器
+推荐应用：
+- MT 管理器
+- QuickEdit
+- Markor
+
+解压后直接用这些应用打开 .md 文件即可。
+
+## 💻 在电脑上查看
+
+### Windows
+请使用：
+- VS Code (推荐)
+- Notepad++
+- 不要用记事本！会乱码！
+
+### Mac/Linux
+直接打开即可
+
+## 🌐 在线查看
+
+如果上述方法都不行，可以：
+1. 把 .md 文件上传到 GitHub
+2. GitHub 会自动渲染成网页
+3. 或者用这些在线 Markdown 查看器：
+   - https://dillinger.io/
+   - https://stackedit.io/
+
+## 📄 文档列表
+
+- README.md - 项目说明
+- QUICKSTART.md - 快速上手
+- FAQ.md - 常见问题（最重要）
+- TECHNICAL.md - 技术详解
+- SHARING.md - 分享指南

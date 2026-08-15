@@ -1,0 +1,16 @@
+# Local credentials and environment files
+.env
+.env.*
+!*.env.example
+credentials.env
+
+# Generated release archives
+*.tar.gz
+*.zip
+
+# Editor and OS metadata
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~

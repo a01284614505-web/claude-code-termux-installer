@@ -58,25 +58,27 @@ claude login
 
 ### 使用第三方 API
 
-创建凭证文件：
+推荐运行交互式配置脚本，按提示填写 Base URL 和 API Key：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
+```
+
+脚本会将配置保存到 `~/.config/claude-code/credentials.env`，并自动设置 `600` 权限。已有配置会在覆盖前备份。
+
+也可以手动创建配置文件：
 
 ```bash
 mkdir -p ~/.config/claude-code
 nano ~/.config/claude-code/credentials.env
-```
 
-写入实际配置，不要把密钥提交到 Git 或公开分享：
-
-```bash
 ANTHROPIC_AUTH_TOKEN='你的-API-KEY'
 ANTHROPIC_BASE_URL='https://你的端点.com'
-```
 
-设置文件权限：
-
-```bash
 chmod 600 ~/.config/claude-code/credentials.env
 ```
+
+Base URL 填写 API 基础地址即可，不要填写 `/v1/messages`。不要把 API Key 提交到 Git 或公开分享。
 
 启动：
 
@@ -139,6 +141,13 @@ bash install.sh
 ```
 
 安装脚本只使用自身内容，不依赖 `examples/` 或其他文档文件，因此 zip 安装和 curl 安装使用的是同一套流程。
+
+配置脚本也可以下载后执行：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh -o configure.sh
+bash configure.sh
+```
 
 ## 文档
 

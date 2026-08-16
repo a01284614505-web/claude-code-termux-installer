@@ -173,6 +173,10 @@ Claude Code 配置说明
 
 使用第三方 API 时，创建 credentials.env：
 
+推荐运行配置脚本：
+  curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
+
+也可以手动创建文件：
   ANTHROPIC_AUTH_TOKEN='你的-API-KEY'
   ANTHROPIC_BASE_URL='https://你的端点.com'
 
@@ -204,8 +208,7 @@ print_usage() {
   claude login
 
 使用第三方 API：
-  nano ~/.config/claude-code/credentials.env
-  chmod 600 ~/.config/claude-code/credentials.env
+  curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
 
 启动 Claude Code：
   claude

@@ -26,6 +26,14 @@ bash install.sh
 
 #### 如果你有第三方 API（比如群友提供的）：
 
+推荐运行配置脚本，按提示填写 API Base URL 和 API Key：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
+```
+
+如果无法直接运行 curl，也可以使用下面的手动配置方式：
+
 ```bash
 # 复制示例配置
 cp examples/credentials.env.example ~/.config/claude-code/credentials.env

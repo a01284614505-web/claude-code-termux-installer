@@ -57,7 +57,7 @@ EOF
 
 require_terminal() {
     [[ -r /dev/tty && -w /dev/tty ]] || die "需要交互式终端。请在 Termux 终端中运行此脚本。"
-    exec </dev/tty >/dev/tty
+    # Keep stdin unchanged so bash can receive EOF after a curl pipe finishes.
 }
 
 check_termux() {

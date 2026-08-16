@@ -2,29 +2,27 @@
 
 ## 📱 第一次使用？跟着做：
 
-### 1. 下载安装包
+### 1. 安装
+
+推荐直接运行远程安装脚本：
 
 ```bash
-# 方法 A: 如果你有下载链接
-curl -O https://你的链接/claude-code-termux-installer.zip
-unzip claude-code-termux-installer.zip
-cd claude-code-termux-installer
-
-# 方法 B: 如果是从群友那里收到的压缩包
-# 先把文件放到 Termux 可以访问的位置
-# 然后解压进入目录
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | bash
 ```
 
-### 2. 运行安装
+如果希望先检查脚本内容：
 
 ```bash
-chmod +x install.sh
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh -o install.sh
+less install.sh
 bash install.sh
 ```
 
-安装需要 5-10 分钟，耐心等待。
+也可以下载项目压缩包后进入目录运行 `bash install.sh`。
 
-### 3. 配置 API
+安装需要 5-10 分钟，耐心等待。使用本地脚本时运行 `bash install.sh`。
+
+### 2. 配置 API
 
 #### 如果你有第三方 API（比如群友提供的）：
 
@@ -56,7 +54,7 @@ claude login
 # 会打开浏览器，用你的 Anthropic 账号登录
 ```
 
-### 4. 启动
+### 3. 启动
 
 ```bash
 source ~/.bashrc
@@ -65,7 +63,7 @@ claude
 
 第一次启动会让你选主题，推荐选 `Dark mode`。
 
-### 5. 配置模型（可选）
+### 4. 配置模型（可选）
 
 如果你的 API 支持 fable、opus-5 等模型：
 

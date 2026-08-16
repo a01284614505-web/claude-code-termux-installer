@@ -1,28 +1,58 @@
 # Claude Code for Termux 安装器
 
-这个项目提供一个自包含的 Bash 安装脚本，用于在 Android/Termux 上安装 Claude Code。脚本不依赖当前目录，可以直接通过 `curl | bash` 执行。
+这个项目提供两个可通过 `curl | bash` 直接运行的 Bash 脚本，用于在 Android/Termux 上安装 Claude Code 并配置自定义 API。
 
-## 快速安装
+## 开始使用
 
-请在 Termux 中运行：
+请在 Termux 中严格按以下顺序执行。
+
+### 第一步：安装 Claude Code
+
+复制并运行安装脚本：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | bash
 ```
 
-安装完成后重新打开 Termux，或执行：
+脚本会自动安装 Node.js、npm、ripgrep、glibc-runner 和 Claude Code。安装过程需要几分钟，请不要关闭 Termux。
+
+### 第二步：配置自定义 API
+
+安装完成后，运行配置脚本：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
+```
+
+脚本会依次询问：
+
+1. `API Base URL`：填写 API 基础地址，例如 `https://api.example.com`，不要填写 `/v1/messages`。
+2. `API Key`：输入 API 密钥，输入时不会显示。
+
+配置将保存到 `~/.config/claude-code/credentials.env`，权限自动设置为 `600`。如果已有配置，覆盖前会自动备份。
+
+### 第三步：启动 Claude Code
+
+配置完成后运行：
 
 ```bash
 source ~/.bashrc
 claude --version
+claude
 ```
 
-如果希望先检查脚本内容，可以先下载再执行：
+如果使用官方 Anthropic API，可以跳过第二步，直接运行 `claude login`。
+
+两个脚本也支持先下载、检查后执行：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh -o install.sh
 less install.sh
 bash install.sh
+
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh -o configure.sh
+less configure.sh
+bash configure.sh
 ```
 
 ## 系统要求
@@ -48,7 +78,7 @@ bash install.sh
 
 Termux 使用 Android 的 Bionic libc，而 Claude Code 原生二进制面向 Linux glibc。启动命令会通过 `glibc-runner` 运行该二进制。
 
-## 安装后配置
+## 配置说明
 
 ### 使用官方 Anthropic API
 
@@ -58,15 +88,7 @@ claude login
 
 ### 使用第三方 API
 
-推荐运行交互式配置脚本，按提示填写 Base URL 和 API Key：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
-```
-
-脚本会将配置保存到 `~/.config/claude-code/credentials.env`，并自动设置 `600` 权限。已有配置会在覆盖前备份。
-
-也可以手动创建配置文件：
+如果不使用配置脚本，也可以手动创建配置文件：
 
 ```bash
 mkdir -p ~/.config/claude-code

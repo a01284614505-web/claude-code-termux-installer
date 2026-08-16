@@ -1,215 +1,189 @@
-# Claude Code for Termux 安装包
+# Claude Code for Termux 安装器
 
-一键安装脚本，让 Claude Code 在 Android/Termux 上运行。
+这个项目提供两个可通过 `curl | bash` 直接运行的 Bash 脚本，用于在 Android/Termux 上安装 Claude Code 并配置自定义 API。
 
-## ✨ 特性
+## 开始使用
 
-- ✅ 使用官方 Claude Code 二进制
-- ✅ 通过 glibc-runner 兼容 Android 环境
-- ✅ 支持官方 API 和第三方 API 端点
-- ✅ 全自动安装，无需手动配置
-- ✅ 适用于所有 ARM64 Android 设备
+请在 Termux 中严格按以下顺序执行。
 
-## 📋 系统要求
+### 第一步：安装 Claude Code
 
-- **设备**: ARM64 (aarch64) 架构的 Android 设备
-- **系统**: Android 7+ 
-- **应用**: Termux (从 F-Droid 或 GitHub 安装)
-- **存储**: 至少 500MB 可用空间
-- **网络**: 需要网络连接下载依赖
-
-## 🚀 快速安装
-
-### 第一步：获取安装包
-
-从群文件或分享链接下载 `claude-code-termux-installer.zip`
-
-### 第二步：解压安装包
-
-在 Termux 中运行：
+复制并运行安装脚本：
 
 ```bash
-# 进入下载目录
-cd ~/storage/downloads
-
-# 解压（如果已经解压请跳过）
-unzip claude-code-termux-installer*.zip
-
-# 进入目录
-cd claude-code-termux-installer
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | bash
 ```
 
-### 第三步：运行安装
+脚本会自动安装 Node.js、npm、ripgrep、glibc-runner 和 Claude Code。安装过程需要几分钟，请不要关闭 Termux。
+
+### 第二步：配置自定义 API
+
+安装完成后，运行配置脚本：
 
 ```bash
-bash install.sh
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh | bash
 ```
 
-安装过程需要 5-10 分钟，请耐心等待。
+脚本会依次询问：
 
-## 📖 安装后配置
+1. `API Base URL`：填写 API 基础地址，例如 `https://api.example.com`，不要填写 `/v1/messages`。
+2. `API Key`：输入 API 密钥，输入时不会显示。
 
-### 选项 A: 使用群里的共享 API
+配置将保存到 `~/.config/claude-code/credentials.env`，权限自动设置为 `600`。如果已有配置，覆盖前会自动备份。
 
-1. 创建配置文件：
-```bash
-nano ~/.config/claude-code/credentials.env
-```
+### 第三步：启动 Claude Code
 
-2. 填入群里公布的配置：
-```bash
-ANTHROPIC_AUTH_TOKEN='群里的密钥'
-ANTHROPIC_BASE_URL='https://sui-xiang.com'
-```
-
-3. 保存并退出：`Ctrl+X` → `Y` → `Enter`
-
-4. 设置权限：
-```bash
-chmod 600 ~/.config/claude-code/credentials.env
-```
-
-### 选项 B: 使用官方 Anthropic API
+配置完成后运行：
 
 ```bash
-# 重新加载环境
 source ~/.bashrc
-
-# 登录官方账号
-claude login
-```
-
-### 第四步：启动使用
-
-```bash
-# 重新加载环境变量
-source ~/.bashrc
-
-# 启动 Claude Code
+claude --version
 claude
 ```
 
-## 📚 查看文档
+如果使用官方 Anthropic API，可以跳过第二步，直接运行 `claude login`。
 
-安装包中包含详细文档：
-
-```bash
-# 快速上手指南（5分钟学会）
-cat QUICKSTART.md
-
-# 常见问题解答
-cat FAQ.md
-
-# 技术详解
-cat TECHNICAL.md
-
-# 分享指南
-cat SHARING.md
-```
-
-**提示**: 在手机上用文本查看器（如 MT 管理器、QuickEdit）打开 `.md` 文件查看效果更好。
-
-## 🔧 技术原理
-
-### 为什么需要这个脚本？
-
-Anthropic 的官方 Claude Code 二进制是为标准 Linux (glibc) 编译的，但 Android/Termux 使用不兼容的 Bionic libc。
-
-### 解决方案
-
-```
-Android/Termux (Bionic libc)
-    ↓
-glibc-runner (提供 glibc 兼容层)
-    ↓
-官方 Linux ARM64 Claude Code 二进制
-    ↓
-成功运行！
-```
-
-### 核心技术栈
-
-1. **glibc-runner**: Termux 社区提供的 glibc 兼容层
-2. **grun**: 启动器，正确设置 glibc 环境
-3. **官方二进制**: 使用 `--force` 强制安装 linux-arm64 包
-
-## 📂 安装包内容
-
-```
-claude-code-termux-installer/
-├── install.sh              # 主安装脚本（全自动）
-├── README.md              # 本文件
-├── QUICKSTART.md          # 快速上手指南
-├── FAQ.md                 # 常见问题解答
-├── TECHNICAL.md           # 技术详解
-├── SHARING.md             # 分享指南
-├── CHANGELOG.md           # 版本历史
-├── 如何查看文档.txt       # 文档查看说明
-└── examples/
-    ├── credentials.env.example    # 配置示例
-    └── settings.json.example      # 模型映射示例
-```
-
-## 🐛 常见问题
-
-### 安装失败怎么办？
-
-1. 确保 Termux 是最新版本：
-```bash
-pkg update && pkg upgrade
-```
-
-2. 检查存储空间：
-```bash
-df -h $HOME
-```
-
-3. 查看 FAQ.md 获取详细故障排除
-
-### Claude Code 启动失败？
+两个脚本也支持先下载、检查后执行：
 
 ```bash
-# 检查安装是否完整
-which grun
-which claude
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh -o install.sh
+less install.sh
+bash install.sh
 
-# 查看详细错误
-claude --version
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh -o configure.sh
+less configure.sh
+bash configure.sh
 ```
 
-### 如何更新 Claude Code？
+## 系统要求
 
-重新运行安装脚本即可：
+- Android 设备，`aarch64` / ARM64 架构
+- 从 [F-Droid](https://f-droid.org/packages/com.termux/) 或 [Termux GitHub Releases](https://github.com/termux/termux-app/releases) 安装的 Termux
+- 至少约 500 MB 可用空间
+- 安装过程需要网络连接
+
+本项目只支持 Android/Termux，不支持普通 Linux、iOS 或其他架构。
+
+## 安装过程做什么
+
+安装脚本会自动完成以下操作：
+
+1. 更新 Termux 软件源。
+2. 安装 Node.js LTS、npm 和 ripgrep。
+3. 安装 `glibc-repo` 和 `glibc-runner`。
+4. 安装 Claude Code 主包及 Linux ARM64 原生二进制。
+5. 创建 `~/.local/bin/claude` 启动命令。
+6. 将 `~/.local/bin` 加入 `~/.bashrc`。
+7. 创建 `~/.config/claude-code` 配置目录。
+
+Termux 使用 Android 的 Bionic libc，而 Claude Code 原生二进制面向 Linux glibc。启动命令会通过 `glibc-runner` 运行该二进制。
+
+## 配置说明
+
+### 使用官方 Anthropic API
 
 ```bash
-cd claude-code-termux-installer
+claude login
+```
+
+### 使用第三方 API
+
+如果不使用配置脚本，也可以手动创建配置文件：
+
+```bash
+mkdir -p ~/.config/claude-code
+nano ~/.config/claude-code/credentials.env
+
+ANTHROPIC_AUTH_TOKEN='你的-API-KEY'
+ANTHROPIC_BASE_URL='https://你的端点.com'
+
+chmod 600 ~/.config/claude-code/credentials.env
+```
+
+Base URL 填写 API 基础地址即可，不要填写 `/v1/messages`。不要把 API Key 提交到 Git 或公开分享。
+
+启动：
+
+```bash
+claude
+```
+
+启动脚本会在每次运行时加载 `~/.config/claude-code/credentials.env`。安装器不会覆盖已有的凭证文件或配置说明。
+
+## 版本与参数
+
+默认安装版本为 `2.1.233`。可以通过环境变量指定版本：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | CLAUDE_VERSION=2.1.233 bash
+```
+
+查看帮助：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | bash -s -- --help
+```
+
+下载后也可以运行：
+
+```bash
+bash install.sh --help
+```
+
+## 常用命令
+
+```bash
+claude                  # 启动 Claude Code
+claude --version        # 查看版本
+claude --help           # 查看帮助
+```
+
+如果提示 `command not found: claude`，重新加载 PATH：
+
+```bash
+source ~/.bashrc
+```
+
+## 更新
+
+重新执行安装命令即可更新 Claude Code：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/install.sh | bash
+```
+
+安装器会更新 npm 包，并重新生成 `~/.local/bin/claude` 启动命令；已有的 `credentials.env` 不会被覆盖。
+
+## 无法使用 curl 时
+
+可以下载项目 zip 压缩包，在 Termux 中解压后运行：
+
+```bash
 bash install.sh
 ```
 
-## 🙏 致谢
+安装脚本只使用自身内容，不依赖 `examples/` 或其他文档文件，因此 zip 安装和 curl 安装使用的是同一套流程。
 
-- Anthropic - Claude Code 官方
-- Termux 社区 - glibc-runner 项目
-- 社区贡献者 - 分享安装方法
+配置脚本也可以下载后执行：
 
-## 📜 许可证
+```bash
+curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-installer/main/configure.sh -o configure.sh
+bash configure.sh
+```
+
+## 文档
+
+- [QUICKSTART.md](QUICKSTART.md)：快速上手
+- [FAQ.md](FAQ.md)：常见问题
+- [TECHNICAL.md](TECHNICAL.md)：技术原理和调试
+- [CHANGELOG.md](CHANGELOG.md)：版本历史
+
+## 安全提示
+
+`curl | bash` 会立即执行远程脚本。只从你信任的地址运行，并在生产环境使用前审阅脚本内容。需要可审计安装时，请固定到已审核的 Git 提交地址，或使用“先下载再执行”的方式。
+
+本项目是社区维护的安装器，不代表 Anthropic 官方支持。Claude Code 本身受 Anthropic 的许可条款约束。
+
+## 许可证
 
 本安装脚本采用 MIT 许可证。
-
-Claude Code 本身受 Anthropic 许可证约束。
-
-## 🔗 相关链接
-
-- [Termux 官网](https://termux.dev/)
-- [Termux F-Droid 下载](https://f-droid.org/packages/com.termux/)
-- [glibc-packages](https://github.com/termux-pacman/glibc-packages)
-
-## ⚠️ 免责声明
-
-本脚本基于社区方法整理，非官方支持。使用风险自负。
-
-建议在测试环境中先验证，再用于生产环境。
-
----
-
-**安装遇到问题？** 查看 `FAQ.md` 或在群里询问！

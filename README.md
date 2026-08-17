@@ -27,7 +27,7 @@ curl -fsSL https://raw.githubusercontent.com/galiandan/claude-code-termux-instal
 脚本会依次询问：
 
 1. `API Base URL`：填写 API 基础地址，例如 `https://api.example.com`，不要填写 `/v1/messages`。
-2. `API Key`：输入 API 密钥，输入时不会显示。
+2. `API Key`：输入 API 密钥，输入时会显示。
 
 配置将保存到 `~/.config/claude-code/credentials.env`，权限自动设置为 `600`。如果已有配置，覆盖前会自动备份。
 

@@ -104,8 +104,8 @@ read_base_url() {
 read_api_key() {
     local value
     while true; do
-        printf '%s' "请输入 API Key（输入内容不会显示）: " >/dev/tty
-        IFS= read -r -s value </dev/tty || die "读取 API Key 失败。"
+        printf '%s' "请输入 API Key（输入内容会显示）: " >/dev/tty
+        IFS= read -r value </dev/tty || die "读取 API Key 失败。"
         printf '\n' >/dev/tty
 
         [[ -n "${value}" ]] || {
